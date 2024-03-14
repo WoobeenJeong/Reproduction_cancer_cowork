@@ -1,11 +1,14 @@
 # reproduction_cancer_cowork
 
-### [Project directory link]
+### Project directory links:
 
-### Project 01. Metagenomics
-### Project 02. Bulk Multi-omics
-### Project 03. scRNAseq
-### Project 04. Multi-modal DL
+[>Project 01. Metagenomics](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/01_METAGENOME)
+
+[>Project 02. Bulk Multi-omics](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/02_BULKOMICS)
+
+[>Project 03. single-cell RNAseq](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/03_SCRNA)
+
+[>Project 04. Multi-modal DL](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/04_MULTIMODAL)
 
 _______
 
