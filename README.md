@@ -2,15 +2,35 @@
 
 ### Project directory links:
 
-[>Project 01. Metagenomics](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/01_METAGENOME)
+[[>Project 01]](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/01_METAGENOME) **Metagenomics**
+> - Object: To demonstrate the causality of behavioral changes in fecal transplant mice through metagenomics.
+> 
+>  - Data type: 16s rRNA Metagenome, Bulk RNAseq, Metabolome, Open field test (mobility, distance, interaction, repetitive behavior)
+> 
+> - Target disease: Autism spectrum disease(ASD)
+___
 
-[>Project 02. Bulk Multi-omics](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/02_BULKOMICS)
-
-[>Project 03. single-cell RNAseq](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/03_SCRNA)
-
-[>Project 04. Multi-modal DL](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/04_MULTIMODAL)
-
-_______
+[[>Project 02]](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/02_BULKOMICS) **Bulk Multi-omics**
+> - Object: Identification of novel therapeutic targets for cancer at various omics levels.
+> 
+> - Data type: WES, WGS(CNV), RNAseq, EPIC array(CpG), Proteome,  Glycoproteome, Phosphoproteome
+> 
+> - Target disease: Pancreatic ductal adenocarcinoma(PDAC)
+___
+[[>Project 03]](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/03_SCRNA) **single-cell RNAseq** 
+> - Object: Discovery of drug targets based on underlying molecular mechanisms.
+> 
+> - Data type: scTranscriptome(biopsies), scRNAseq, spatial Transcriptome
+> 
+> - Target disease: Sarcoidosis granulomas (Cutaneous sarcoidosis)
+___
+[[>Project 04]](https://github.com/WoobeenJeong/reproduction_cancer_cowork/tree/main/04_MULTIMODAL) **Multi-modal DL**
+> - Object: Identifying AI-derived pan-cancer prognostic features as a biomarkers.
+> 
+> - Data type: H&E Whole slide image, Mutation profile, CNV, bulk RNAseq
+> 
+> - Target disease: 14 types of cancers
+___
 
 ### 1. Human Gut Microbiota from Autism Spectrum Disorder Promote Behavioral Symptoms in Mice
     Sharon et. al., Cell. 2019 May 30; 177(6): 1600–1618.e17. doi:10.1016/j.cell.2019.05.004.
