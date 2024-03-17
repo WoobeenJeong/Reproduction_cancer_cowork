@@ -1,0 +1,22 @@
+#software SRAtoolkit download
+
+wget -P ~/Biosofts/ https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/3.1.0/sratoolkit.3.1.0-ubuntu64.tar.gz
+
+tar zvxf ~/Biosofts/sratoolkit.3.1.0-ubuntu64.tar.gz -C ~/Biosofts
+
+# check if it was downloaded
+
+~/Biosofts/sratoolkit.3.1.0-ubuntu64/bin/fastq-dump -h
+
+# add path
+echo 'export PATH=~/Biosofts/sratoolkit.3.1.0-ubuntu64/bin:$PATH'  >> ~/.bashrc
+source ~/.bashrc
+
+# test again 
+fastq-dump
+
+
+#
+pip install bioinfokit
+from bioinfokit.analys import fastq
+fastq.sra_bd(file='/home/zliu/meta/SRR_human16s.txt',t=16,other_opts='--include-technical --split-files')
