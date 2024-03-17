@@ -20,3 +20,7 @@ fastq-dump
 pip install bioinfokit
 from bioinfokit.analys import fastq
 fastq.sra_bd(file='/home/zliu/meta/SRR_human16s.txt',t=16,other_opts='--include-technical --split-files')
+
+
+or 
+prefetch -f no -p --option-file /home/zliu/meta/SRR_human16s.txt
