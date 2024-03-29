@@ -1,16 +1,22 @@
+# 원격 서버에서의 환경 설정
+
 ############################################
 # remote explorer in vscode
+# password on termius (0000xxxx[])
 
-# Host 147.47.91.235
-#   HostName 147.47.91.235
+# Host 147.47.91.233
+#   HostName 147.47.91.233
 #   User wbjeong
-#   Port 8032
+#   Port 7777
 
 ###########################################
 # settings:
 
 # [Ubuntu 18.04]
-lsb_release -a
+# lsb_release -a
+
+# [Ubuntu 8.7] 
+cat /etc/os-release
 
 # No LSB modules are available.
 # Distributor ID: Ubuntu
@@ -24,7 +30,15 @@ lspci | grep -i VGA
 # 03:00.0 VGA compatible controller: Matrox Electronics Systems Ltd. Integrated Matrox G200eW3 Graphics Controller (rev 04)
 
 # [Python 3.7.7]
+# [Python 3.10.9]
 python --version
+
+############################################
+
+# conda create --name cancer
+conda activate cancer
+
+############################################
 
 # [etc.]
 conda install h5py=2.10.0 matplotlib=3.1.1 numpy=1.18.1 pandas=1.1.3 pillow=7.0.0 scikit-learn=0.22.1 scipy=1.4.1 tensorflow=1.13.1
@@ -38,12 +52,6 @@ conda install conda-forge::openslide-python       # 1.3.1
 conda install conda-forge::openslide              # 4.0.0
 conda install conda-forge::tensorboardx           # 2.6.2
 conda install conda-forge::shap                   # 0.45.0
-
-############################################
-
-conda activate cancer
-
-conda activate clam
 
 ############################################
 
@@ -71,12 +79,19 @@ conda activate clam
 # 3. imagecodecs/_aec.c 파일에서는 libaec.h 찾을 수 없음 (libxml/xmlversion.h 도)
 # 4. GCC 컴파일러가 오류
 
-conda install pytorch::pytorch          # 2.2.1
-conda install conda-forge::cudatoolkit  # 11.8.0 (already installed)
-conda install conda-forge::cudnn        # 8.9.7.29
+conda env create -n clam -f cancer/env/clam.yaml
+
+conda activate clam
+
+conda install pytorch::pytorch
+# conda install conda-forge::cudatoolkit  # 11.8.0 (already installed)
+# conda install conda-forge::cudnn        # 8.9.7.29  
 conda install conda-forge::libxml2      # 2.9.9
 conda install conda-forge::libxslt      # 1.1.32
 conda install conda-forge::libaec       # 1.0.4
+
+python -c "import torch; print(torch.__version__)"                  # 1.3.1
+python -c "import torch; print(torch.backends.cudnn.version())"
 
 ###########################################
 # manifest를 다운로드
@@ -85,7 +100,7 @@ conda install conda-forge::libaec       # 1.0.4
 # 가장 우측 상단에 TCGA-원하는암종으로 검색
 # save cohort로 저장
 # cohort builder로 이동
-- 왼쪽 카탈로그 중 Available Data -> Data type 모든 항목 확장 -> slide image 선택
+# 왼쪽 카탈로그 중 Available Data -> Data type 모든 항목 확장 -> slide image 선택
 # 다시 Repository에서 Experimental Strategy -> Diagnostic Slide / Tissue Slide 선택 가능
 # 목표는 Diagnostic image임
 
@@ -93,8 +108,17 @@ conda install conda-forge::libaec       # 1.0.4
 # 목록: (앞에 TCGA-를 붙일 것)
 # [BLCA, BRCA, COADREAD, HNSC, KIRC, KIRP, LGG, LIHC, LUAD, LUSC, PAAD, SKCM, STAD, UCEC]
 
-gdc-client download -m ../cancer/gdc_manifest_LUAD_diagnostic_slide.txt -d ../cancer/data/LUAD
+conda install -c bioconda gdc-client
+
+gdc-client download -m ../wbjeong/cancer/WSI/gdc_manifest_LUAD_diagnostic_slide.txt -d /data/cancer/LUAD
 
 ls -l | grep ^d | wc -l
+ls -l | grep ^d | sort | wc -l
+
+### 데이터 위치
+cd /data/cancer/LUAD
+
+### 용량
+df -h
 
 ##########################################
