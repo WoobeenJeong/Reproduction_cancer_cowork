@@ -50,7 +50,7 @@ time qiime quality-filter q-score \
 
 time qiime deblur denoise-16S
 --i-demultiplexed-seqs demux-filtered.qza
---p-trim-length 150
+--p-trim-length 20
 --o-representative-sequences rep-seqs-deblur.qza
 --o-table deblur-table.qza
 --p-sample-stats
