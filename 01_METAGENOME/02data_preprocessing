@@ -1,14 +1,14 @@
 #conda activate qiime2-amplicon-2024.2
 # gzip ./*.fastq
 #change to the working direction where saved the fastq files
-cd ./meta/human16s 
+#cd ./meta/human16s 
 
-#using script to make the manifest file
+####################Using script to make the manifest file######################
 awk 'NR==1{print "sample-id\tforward-absolute-filepath\treverse-absolute-filepath"} \
       NR>1{print $1"\t./human16s/"$1"_R1.fq.gz\t./human16s/"$1"_R2.fq.gz"}' metadata_human.txt    
 
 
-#import the data (change fastq to qza)
+#################import the data (change fastq to qza)######################
 
 # paired end 
 qiime tools import \
@@ -24,14 +24,76 @@ time qiime tools import --type "SampleData[SequencesWithQuality]"
 --input-path manifest_human.csv 
 --output-path demux_seqs.qza
 
-#filter the sequence based on the quality
+
+
+
+
+###################filter the sequence based on the quality######################
+
 time qiime quality-filter q-score \
 --i-demux demux_seqs.qza \      
 --o-filtered-sequences demux-filtered.qza \        
 --o-filter-stats demux-filter-stats.qza    
 
 #demux-filtered.qza the results after quailty filter 
-# the stastitical results of quality filter 
+#the stastitical results of quality filter 
+
+
+
+
+
+
+###################### deblur denosing process######################
+#input file: demux-filtered.qza the filter result from the previous step 
+#set the length 
+#output file:representative-sequences、deblur-table.qza deblur-stats
+
+time qiime deblur denoise-16S
+--i-demultiplexed-seqs demux-filtered.qza
+--p-trim-length 150
+--o-representative-sequences rep-seqs-deblur.qza
+--o-table deblur-table.qza
+--p-sample-stats
+--o-stats deblur-stats.qza
+
+
+
+
+
+#########################visualize the output files######################
+###filter statistical result:
+
+time qiime metadata tabulate
+--m-input-file demux-filter-stats.qza   
+--o-visualization demux-filter-stats.qzv     
+
+##denosing statistical result:
+
+time qiime deblur visualize-stats
+--i-deblur-stats deblur-stats.qza      
+--o-visualization deblur-stats.qzv
+
+
+#representative sequences result:
+
+time qiime feature-table tabulate-seqs
+--i-data rep-seqs-deblur qza
+--o-visualization rep-seqs-deblur.qzv
+
+
+#deblur-table 
+time qiime feature-table summarize
+--i-table deblur-table.qza
+--o-visualization deblur-table.qzv
+--m-sample-metadata-file metadata.tsv
+
+
+
+
+
+
+
+
 
 
 
