@@ -1,0 +1,39 @@
+#conda activate qiime2-amplicon-2024.2
+# gzip ./*.fastq
+#change to the working direction where saved the fastq files
+cd ./meta/human16s 
+
+#using script to make the manifest file
+awk 'NR==1{print "sample-id\tforward-absolute-filepath\treverse-absolute-filepath"} \
+      NR>1{print $1"\t./human16s/"$1"_R1.fq.gz\t./human16s/"$1"_R2.fq.gz"}' metadata_human.txt    
+
+
+#import the data (change fastq to qza)
+
+# paired end 
+qiime tools import \
+  --type 'SampleData[PairedEndSequencesWithQuality]' \
+  --input-path manifest_human \
+  --output-path  paired-end-demux.qza \
+  --input-format PairedEndFastqManifestPhred33
+
+
+#single end(in this paper)
+time qiime tools import --type "SampleData[SequencesWithQuality]"
+--input-format SingleEndFastqManifestPhred33V2 
+--input-path manifest_human.csv 
+--output-path demux_seqs.qza
+
+#filter the sequence based on the quality
+time qiime quality-filter q-score \
+--i-demux demux_seqs.qza \      
+--o-filtered-sequences demux-filtered.qza \        
+--o-filter-stats demux-filter-stats.qza    
+
+#demux-filtered.qza the results after quailty filter 
+# the stastitical results of quality filter 
+
+
+
+
+
