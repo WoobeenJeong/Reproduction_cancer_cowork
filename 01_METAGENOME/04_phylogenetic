@@ -9,7 +9,7 @@ wget \
   "https://data.qiime2.org/2019.10/common/sepp-refs-gg-13-8.qza"
     
 qiime fragment-insertion sepp \
-  --i-representative-sequences rep-seqs.qza \
+  --i-representative-sequences rep-seqs-deblur.qza \
   --i-reference-database sepp-refs-gg-13-8.qza \
   --o-tree insertion-tree.qza \
   --o-placements insertion-placements.qza
