@@ -1,0 +1,44 @@
+time qiime diversity core-metrics-phylogenetic \
+--i-phylogeny rooted-tree.qza \
+--i-table deblur-table.qza \
+--p-sampling-depth 2000 \
+--m-metadata-file ~/meta/metadata_donor.txt \
+--output-dir core-metrics-results
+
+or 
+
+--o-rarefied-table rarefied_table.qza \
+--o-weighted-unifrac-emperor weighted-unifrac-emperor.qzv \
+--o-faith-pd-vector faith_pd_vector.qza \
+--o-observed-features-vector observed_otus_vector.qza \
+--o-shannon-vector shannon_vector.qza \
+--o-evenness-vector evenness_vector.qza \
+--o-unweighted-unifrac-distance-matrix unweighted_unifrac_distance_matrix.qza \
+--o-weighted-unifrac-distance-matrix weighted_unifrac_distance_matrix.qza \
+--o-bray-curtis-distance-matrix bray_curtis_distance_matrix.qza \
+--o-unweighted-unifrac-pcoa-results unweighted_unifrac_pcoa_results.qza \
+--o-weighted-unifrac-pcoa-results weighted_unifrac_pcoa_results.qza \
+--o-jaccard-pcoa-results jaccard_pcoa_results.qza \
+--o-bray-curtis-pcoa-results  bray_curtis_pcoa_results.qza \
+--o-unweighted-unifrac-emperor weighted_unifrac_emperor.qzv \
+--o-jaccard-emperor jaccard_emperor.qzv \
+--o-bray-curtis-emperor bray_curtis_emperor.qzv \
+--o-jaccard-distance-matrix jaccard_distance_matrix.qza
+
+########################Alpha diverisity group significance analysis and visualization ######################
+time qiime diversity alpha-group-significance \
+--i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
+--m-metadata-file ~/meta/metadata_donor.txt \
+--o-visualization core-metrics-results/faiths_pd_statistics.qzv
+
+#########################Beta Alpha diverisity group significance analysis and visualization ############################################
+
+time qiime diversity beta-group-significance \
+--i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza \
+--m-metadata-file ~/meta/metadata.txt \
+--m-metadata-column cage_id \
+--o-visualization core-metrics-results/unweighted-unifrac-cage-significance.qzv \
+--p-pairwise
+
+
+
