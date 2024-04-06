@@ -1,14 +1,12 @@
 #conda activate qiime2-amplicon-2024.2
 # gzip ./*.fastq
-#change to the working direction where saved the fastq files
-#cd ./meta/human16s 
 
-####################Using script to make the manifest file######################
+####################Using script to generate the manifest file######################
 awk 'NR==1{print "sample-id\tforward-absolute-filepath\treverse-absolute-filepath"} \
-      NR>1{print $1"\t./human16s/"$1"_R1.fq.gz\t./human16s/"$1"_R2.fq.gz"}' metadata_human.txt    
+      NR>1{print $1"\t./human16s/"$1"_R1.fq.gz\t./human16s/"$1"_R2.fq.gz"}' metadata.txt     >./human16s/manifest_donor
 
 
-#################import the data (change fastq to qza)######################
+#################import the data################
 
 # paired end 
 qiime tools import \
@@ -24,85 +22,27 @@ time qiime tools import --type "SampleData[SequencesWithQuality]"
 --input-path manifest_human.csv 
 --output-path demux_seqs.qza
 
+#visualize the demux_seq 
+time qiime demux summarize \
+--i-data demux_seqs.qza \
+--o-visualization demux_seqs.qzv
 
+###################filter the sequence based on the quality#####################
 
-
-
-###################filter the sequence based on the quality######################
-
+#quality filter
 time qiime quality-filter q-score \
 --i-demux demux_seqs.qza \      
 --o-filtered-sequences demux-filtered.qza \        
 --o-filter-stats demux-filter-stats.qza    
 
-#demux-filtered.qza the results after quailty filter 
-#the stastitical results of quality filter 
 
-
-
-
-
-
-###################### deblur denosing process######################
-#input file: demux-filtered.qza the filter result from the previous step 
-#set the length 
-#output file:representative-sequences、deblur-table.qza deblur-stats
-
-time qiime deblur denoise-16S
---i-demultiplexed-seqs demux-filtered.qza \
---p-trim-length 120 \
---o-representative-sequences rep-seqs-deblur.qza \
---o-table deblur-table.qza \
---p-sample-stats \
---o-stats deblur-stats.qza 
-
-##################fragments were inserted to 16S rRNA gene context by q2-fragment-insertion ########
-
-wget https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.tgz &
-
-tar -xzf Silva_128_release.tgz
-
-cd Silva_128_release
-
-qiime tools import \
-  --type 'FeatureData[Sequence]' \
-  --input-path SILVA_128_QIIME_release/rep_set/rep_set_16S_only/99/silva_128_seqs_set1.fasta \
-  --output-path silva_128_seqs_set1.qza
-
-#conda install -c conda-forge q2-fragment-insertion
-
-q2-fragment-insertion insert --i-sequences rep-seqs-deblur.qza \
---i-database silva-128.qza \
---o-sequences inserted-seqs.qz
-
-#########################visualize the output files######################
-###filter statistical result:
-
-time qiime metadata tabulate
---m-input-file demux-filter-stats.qza   
---o-visualization demux-filter-stats.qzv     
-
-##denosing statistical result:
-
-time qiime deblur visualize-stats
---i-deblur-stats deblur-stats.qza      
---o-visualization deblur-stats.qzv
-
-
-#representative sequences result:
-
-time qiime feature-table tabulate-seqs
---i-data rep-seqs-deblur qza
---o-visualization rep-seqs-deblur.qzv
-
-
-#deblur-table 
-time qiime feature-table summarize
---i-table deblur-table.qza
---o-visualization deblur-table.qzv
---m-sample-metadata-file metadata.tsv
-
-
+#remove the primer
+qiime cutadapt trim-paired \
+--i-demultiplexed-sequences demux-filtered.qza \
+--p-cores 4 \
+--p-front GGCGVACGGGTGAGTAA \
+--p-no-indels \
+--o-trimmed-sequences primer-trimmed-demux.qza
 
 
 
