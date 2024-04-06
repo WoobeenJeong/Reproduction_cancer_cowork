@@ -1,1 +1,20 @@
 #Generate a tree for phylogenetic diversity analyses
+
+##################fragments were inserted to 16S rRNA gene context by q2-fragment-insertion ########
+#Fragment-insertion
+wget https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.tgz &
+
+tar -xzf Silva_128_release.tgz
+
+cd Silva_128_release
+
+qiime tools import \
+  --type 'FeatureData[Sequence]' \
+  --input-path SILVA_128_QIIME_release/rep_set/rep_set_16S_only/99/silva_128_seqs_set1.fasta \
+  --output-path silva_128_seqs_set1.qza
+
+#conda install -c conda-forge q2-fragment-insertion
+
+q2-fragment-insertion insert --i-sequences rep-seqs-deblur.qza \
+--i-database silva-128.qza \
+--o-sequences inserted-seqs.qz
