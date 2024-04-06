@@ -1,35 +1,12 @@
 ###################### deblur denosing process######################
-#input file: primer-trimmed-demux.qza 
-#set the length: 120  
-#output file:representative-sequences/deblur-table.qza/ deblur-stats
 
-time qiime deblur denoise-16S
---i-demultiplexed-seqs primer-trimmed-demux.qza  \
---p-trim-length 120 \  
+time qiime deblur denoise-16S \
+--i-demultiplexed-seqs demux-filter-stats.qza \
+--p-trim-length 120 \
 --o-representative-sequences rep-seqs-deblur.qza \
 --o-table deblur-table.qza \
 --p-sample-stats \
 --o-stats deblur-stats.qza 
-
-
-##################fragments were inserted to 16S rRNA gene context by q2-fragment-insertion ########
-
-wget https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_128_release.tgz &
-
-tar -xzf Silva_128_release.tgz
-
-cd Silva_128_release
-
-qiime tools import \
-  --type 'FeatureData[Sequence]' \
-  --input-path SILVA_128_QIIME_release/rep_set/rep_set_16S_only/99/silva_128_seqs_set1.fasta \
-  --output-path silva_128_seqs_set1.qza
-
-#conda install -c conda-forge q2-fragment-insertion
-
-q2-fragment-insertion insert --i-sequences rep-seqs-deblur.qza \
---i-database silva-128.qza \
---o-sequences inserted-seqs.qz
 
 #########################visualize the output files######################
 ###filter statistical result:
