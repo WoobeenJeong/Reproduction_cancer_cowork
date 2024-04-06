@@ -1,7 +1,7 @@
 ###################### deblur denosing process######################
 
 time qiime deblur denoise-16S \
---i-demultiplexed-seqs demux-filter.qza \
+--i-demultiplexed-seqs demux-filtered.qza \
 --p-trim-length 120 \
 --o-representative-sequences rep-seqs-deblur.qza \
 --o-table deblur-table.qza \
