@@ -29,6 +29,17 @@ time qiime demux summarize \
 --o-visualization demux_seqs.qzv
 
 #remove the primer 
+#single（in this paper)
+time qiime cutadapt trim-single \
+--i-demultiplexed-sequences demux_seqs.qza \
+--p-cores 4 \
+--p-front-f GGCGVACGGGTGAGTAA \
+--p-no-indels \
+--o-trimmed-sequences primer-trimmed-demux.qza
+
+
+
+# paired
 time qiime cutadapt trim-paired \
   --i-demultiplexed-sequences demux_seqs.qza \
   --p-cores 4 \
