@@ -6,6 +6,7 @@ awk 'NR==1{print "sample-id\tforward-absolute-filepath\treverse-absolute-filepat
       NR>1{print $1"\t./human16s/"$1"_R1.fq.gz\t./human16s/"$1"_R2.fq.gz"}' metadata.txt     >./human16s/manifest_donor
 
 
+
 #################import the data################
 
 # paired end 
@@ -15,35 +16,38 @@ qiime tools import \
   --output-path  paired-end-demux.qza \
   --input-format PairedEndFastqManifestPhred33
 
-
 #single end(in this paper)
 time qiime tools import --type "SampleData[SequencesWithQuality]"
 --input-format SingleEndFastqManifestPhred33V2 
 --input-path manifest_human.csv 
 --output-path demux_seqs.qza
 
-#visualize the demux_seq 
+
+#visualization
 time qiime demux summarize \
 --i-data demux_seqs.qza \
 --o-visualization demux_seqs.qzv
 
-###################filter the sequence based on the quality#####################
-
-#quality filter
-time qiime quality-filter q-score \
---i-demux demux_seqs.qza \      
---o-filtered-sequences demux-filtered.qza \        
---o-filter-stats demux-filter-stats.qza    
-
-
-#remove the primer
-qiime cutadapt trim-paired \
---i-demultiplexed-sequences demux-filtered.qza \
+#remove the primer 
+time qiime cutadapt trim-single \
+--i-demultiplexed-sequences demux_seqs.qza \
 --p-cores 4 \
---p-front GGCGVACGGGTGAGTAA \
+--p-front-f GGCGVACGGGTGAGTAA \
 --p-no-indels \
 --o-trimmed-sequences primer-trimmed-demux.qza
 
+#visualization
+time qiime demux summarize \
+--i-data primer-trimmed-demux.qza \
+--o-visualization primer-trimmed-demux_seqs.qzv
+
+
+###################filter the sequence based on the quality#####################
+#quality filter
+time qiime quality-filter q-score \
+--i-demux primer-trimmed-demux.qza \      
+--o-filtered-sequences demux-filtered.qza \        
+--o-filter-stats demux-filter-stats.qza    
 
 
 
