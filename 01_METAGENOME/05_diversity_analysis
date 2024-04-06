@@ -1,3 +1,6 @@
+
+########Alpha and Beta diversities were analyzed using the core-metrics-phylogenetic for observed ASVs################
+
 time qiime diversity core-metrics-phylogenetic \
 --i-phylogeny rooted-tree.qza \
 --i-table deblur-table.qza \
@@ -30,6 +33,18 @@ time qiime diversity alpha-group-significance \
 --i-alpha-diversity core-metrics-results/faith_pd_vector.qza \
 --m-metadata-file ~/meta/metadata_donor.txt \
 --o-visualization core-metrics-results/faiths_pd_statistics.qzv
+
+time qiime diversity alpha-group-significance \
+--i-table deblur-table.qza\
+--i-phylogeny rep-seqs-deblur.qza \
+--m-metadata-file ~/meta/metadata_donor.txt \
+--o-alpha-group-significance alpha-group-significance.qza
+
+time qiime diversity alpha-group-significance \
+--i-alpha-diversity /human16s/core-metrics-results/evenness_vector.qza \
+--m-metadata-file ~/meta/metadata_donor.txt \
+--o-visualization core-metrics-results/evenness-group-significance.qzv
+
 
 #########################Beta Alpha diverisity group significance analysis and visualization ############################################
 
