@@ -1,8 +1,5 @@
-# 원격 서버에서의 환경 설정
-
 ############################################
 # remote explorer in vscode
-# password on termius (0000xxxx[])
 
 # Host 147.47.91.233
 #   HostName 147.47.91.233
