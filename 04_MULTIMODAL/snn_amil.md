@@ -9,7 +9,7 @@
 > 
 > - Target disease: 14 types of cancers
 
-### [Contents in main code]
+### [Contents in env ~ main_code]
 * Each file numbered from 1 to 9 covers the following topics:
 
 > 001: Setting up the environment for GPU
